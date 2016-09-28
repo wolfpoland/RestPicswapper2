@@ -26,10 +26,7 @@ namespace RestPicswapper2.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            context.Linkis.AddOrUpdate(x => x.Id,
-                new Models.Linki { Adres="dupa",folder=false}
-
-                );
+           
             context.Uzytkowniks.AddOrUpdate(x => x.Id,
                 new Models.Uzytkownik { imie="Patriko",nazwisko="Fantastico",haslo="dupa",mail="dupa"});
         }

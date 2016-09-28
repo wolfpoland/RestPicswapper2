@@ -19,10 +19,35 @@ namespace RestPicswapper2.Controllers
 
         // GET: api/Uzytkowniks
         [ActionName("getAll")]
-        public IQueryable<Uzytkownik> GetUzytkowniks()
+        public List<Uzytkownik> GetUzytkowniks()
         {
-            return db.Uzytkowniks;
+            List<Uzytkownik> lista = db.Uzytkowniks.ToList();
+            List<Uzytkownik> nowa = new List<Uzytkownik>();
+            foreach (Uzytkownik item in lista)
+            {
+                if (nowa.Count == 0)
+                {
+                    nowa.Add(item);
+                }else
+                {
+                    bool cosBylo = false;
+                    foreach (Uzytkownik item2 in nowa)
+                    {
+                        if(item.imie==item2.imie && item2.mail==item.mail && item.nazwisko == item2.nazwisko)
+                        {
+                            db.Uzytkowniks.Remove(item);
+                            cosBylo = true;
+                        }
+                    }
+                    if (cosBylo == false)
+                    {
+                        nowa.Add(item);
+                    }
+                }
+            }
+            return nowa;
         }
+
 
         // GET: api/Uzytkowniks/5
         [ResponseType(typeof(Uzytkownik))]
@@ -125,7 +150,7 @@ namespace RestPicswapper2.Controllers
         public Uzytkownik logo(string mail, string haslo)
         {
             System.Diagnostics.Debug.WriteLine("Jestem w logo");
-            Uzytkownik uz = db.Uzytkowniks.Single(k => k.mail == mail && k.haslo == haslo);
+            Uzytkownik uz = db.Uzytkowniks.First(k => k.mail == mail && k.haslo == haslo);
             if (uz == null)
             {
                 System.Diagnostics.Debug.WriteLine("NULL");
